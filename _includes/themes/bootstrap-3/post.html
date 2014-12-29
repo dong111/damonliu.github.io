@@ -1,0 +1,45 @@
+<div class="post">
+  <div class="page-header">
+    <h1>{{ page.title }} {% if page.tagline %}<small>{{page.tagline}}</small>{% endif %}</h1>
+  </div>
+
+  <div class="clearfix">
+  {% unless page.categories == empty %}
+    <ul class="tag-box list-unstyled post-category">
+      <li title="Category" class="post-tag-box-icon">
+          <i class="glyphicon glyphicon-bookmark"></i>
+      </li>
+      {% assign categories_list = page.categories %}
+      {% include JB/categories_list %}
+    </ul>
+  {% endunless %}
+
+  {% unless page.tags == empty %}
+    <ul class="tag-box list-unstyled post-tag">
+      <li title="Tag" class="post-tag-box-icon">
+          <i class="glyphicon glyphicon-tag"></i>
+      </li>
+      {% assign tags_list = page.tags %}
+      {% include JB/tags_list %}
+    </ul>
+  {% endunless %}
+  </div>
+
+  <div class="post-full">
+    <div>
+      {{ content }}
+    </div>
+    <div class="pagination clearfix">
+    {% if page.previous %}
+      <a class="pull-left" href="{{ BASE_PATH }}{{ page.previous.url }}" title="{{ page.previous.title }}" >上一篇: {{ page.previous.title }}</a>
+    {% endif %}
+    {% if page.next %}
+      <a class="pull-right" href="{{ BASE_PATH }}{{ page.next.url }}" title="{{ page.next.title }}" >下一篇: {{ page.next.title }}</a>
+    {% endif %}
+    </div>
+  </div>
+
+  <div>
+    {% include JB/comments %}
+  </div>
+</div>

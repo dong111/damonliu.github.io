@@ -1,0 +1,40 @@
+---
+layout: default
+title: Damon's Blog
+tagline:
+---
+
+{% include JB/setup %}
+
+{% for post in paginator.posts %}
+  <div class="post">
+    <div class="post-date">
+      <div class="post-date-day-month">{{post.date | date: "%m/%d"}}</div>
+      <div class="post-date-year">{{post.date | date: "%Y"}}</div>
+    </div>
+    <h1 class="post-title"><a href="{{post.url}}">{{post.title}}</a></h1>
+    <div class="post-excerpt">
+      {{post.excerpt | remove: '<excerpt>' | remove: '</excerpt>'}}
+    </div>
+    <div class="read-more">
+        <a class="fa fa-link" href="{{site.baseurl}}{{post.url}}"> Read More ...</a>
+    </div>
+  </div>
+{% endfor %}
+
+<!-- Pagination links -->
+{% if paginator.total_pages > 1 %}
+<div class="pagination">
+  {% if paginator.previous_page %}
+    <a href="{{ paginator.previous_page_path }}" class="btn btn-primary">&laquo; Previous</a>
+  {% else %}
+    <span class="btn btn-primary disabled">&laquo; Previous</span>
+  {% endif %}
+  <span class="page_number ">当前页: {{ paginator.page }} 总页数: {{ paginator.total_pages }}</span>
+  {% if paginator.next_page %}
+    <a href="{{ paginator.next_page_path }}" class="btn btn-primary">Next &raquo;</a>
+  {% else %}
+    <span class="btn btn-primary disabled">Next &raquo;</span>
+  {% endif %}
+</div>
+{% endif %}
