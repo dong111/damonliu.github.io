@@ -85,7 +85,8 @@ h1, h2, h3, h4, h5, h6 {
 
 .body h3.page-date {
     margin-top: -20px;
-    margin-left: 150px;
+    margin-right: 150px;
+    text-align: right;
 }
 
 .post .post-category {
