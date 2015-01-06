@@ -1,8 +1,7 @@
-
 h1, h2, h3, h4, h5, h6 {
-    color: #428bca;
+    color: #4183C4;
+    font-weight: bold;
 }
-
 
 .navbar .container {
     margin: 0 auto;
@@ -81,7 +80,12 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .body .page-header h1 {
-    font-weight: bold;
+    margin-left: -100px;
+}
+
+.body h3.page-date {
+    margin-top: -20px;
+    margin-left: 150px;
 }
 
 .post .post-category {
