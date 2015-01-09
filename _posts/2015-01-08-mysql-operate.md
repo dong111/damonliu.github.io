@@ -1,13 +1,14 @@
 ---
 layout: post
 category: db
-title: MySQL 数据库常用操作
+title: MySQL 数据库常用操作和配置
 tags: [mysql]
 ---
 
 * DCL(Data Control Language) 数据库控制语言。
 * DDL(Data Definition Language) 数据库定义语言语句。
 * DML(Data Manipulation Language) 数据操纵语言。
+
 
 # 1 数据库有关
 
@@ -99,6 +100,24 @@ mysql> load data local infile '/data/1.txt' into table `user` fields terminated 
 -- 导入文件数据 字段的分隔符为 '\t' 一个制表符  注意文件里面的分割也要是制表符
 ```
 
+对于MyISAM存储引擎的表，可以通过以下方式快速的导入大量的数据：
+
+```mysql
+mysql> alter table `user` disable keys;
+mysql> loading the data
+mysql> alter table `user` enable keys
+```
+ DISABLE KEYS 和 ENABLE KEYS 用来打开或关闭MyISAM表非唯一索引的更新，可以提高速度，**<span class="text-danger">注意：对InnoDB表无效。</span>**
+
+Innodb存储引擎，导入大数据：
+
+* 按照主键顺序导入
+* 关闭唯一索引                    set unique_checks = 0;
+* 关闭自动提交                    set autocommit = 0;
+
+导入完成之后不要忘记设置回来。
+
+
 
 # 2 表有关
 
@@ -142,11 +161,68 @@ mysql> show create table `user` \G;                     -- 可以查看见表语
 
 ### 2.3 表修改
 ```mysql
-mysql> alter table `user` engine = InnoDB;                      -- 修改表的存储引擎
-mysql> alter table `user` change clomun `id` `user_id` int(11) not null auto_increment,drop primary key,add primary key using btree(`user_id`);                                     -- 修改列名称，主键的话删除索引重新建立
-mysql> alter table `user` modify column `id` int(11) not null auto_increment; -- 修改列属性
-mysql> alter table `user` drop column `password`;               -- 删除列
-mysql> alter table `users` add column `password` varchar(65) not null after `name`;        -- 添加新列
+mysql> alter table `user` engine = InnoDB;                                              -- 修改表的存储引擎
+mysql> alter table `user` change clomun `id` `user_id` int(11) not null auto_increment, drop primary key,
+    -> add primary key using btree(`user_id`);                     -- 修改列名称，主键的话删除索引重新建立
+mysql> alter table `user` modify column `id` int(11) not null auto_increment;           -- 修改列属性
+mysql> alter table `user` drop column `password`;                                       -- 删除列
+mysql> alter table `users` add column `password` varchar(65) not null after `name`;     -- 添加新列
 ```
 
-### TODO
+### 2.4 索引
+```mysql
+mysql> show index from `user`;                                       -- 查看索引
+mysql> show keys from `user`;
+
+mysql> alter table `user` add index index_id (`id`);                 -- 添加普通索引
+mysql> create index index_id on `user` (`id`);
+mysql> alter table `user` add unique (`email`);                      -- 添加唯一索引
+mysql> create unique index index_email on `user` (`email`);
+mysql> alter table `user` add primary key (`user`, `email`);         -- 添加 primary key 索引
+
+mysql> drop index index_id on `user`;                                -- 删除索引
+mysql> alter table `user` drop index `index_email';
+mysql> alter table `user` drop primary key;
+
+```
+
+### 2.5 查看表的大小
+表的一些信息存储在mysql的内置数据库information_schema的TABLES表中。
+
+```mysql
+mysql> select TABLE_NAME, DATA_LENGTH+INDEX_LENGTH, TABLE_ROWS 
+    -> from TABLES where TABLE_SCHEMA='mysql' and TABLE_NAME = 'user'       -- 通过数据的大小加上索引的大小
+
+mysql> select concat(round(sum(DATA_LENGTH/1024/1024), 2),'MB') as data from TABLES; -- 查看所有数据的大小
+
+mysql> select concat(round(sum(DATA_LENGTH/1024/1024), 2),'MB') as data
+    -> from TABLES where TABLE_SCHEMA = 'mysql';                            -- 查看mysql数据库的大小
+
+mysql> selectconcat(round(sum(DATA_LENGTH/1024/1024),2),'MB') as data
+    -> from TABLES wheretable_schema = 'mysql'
+    -> and table_name = 'user';                                             -- 查看指定数据库的表的大小   
+```
+
+
+# 3 其它
+
+MySQL在Linux下数据库名、表名、列名、别名大小写规则是这样的：
+  
+* 数据库名与表名是严格区分大小写的；
+* 表的别名是严格区分大小写的；
+* 列名与列的别名在所有的情况下均是忽略大小写的；
+* 变量名也是严格区分大小写的；
+
+MySQL在Windows下是不区分大小写的:
+
+```mysql
+lower_case_table_names = 0  -- 0 区分大小写，存储的是实际值 1 不区分大小写，存储的是小写 2 不区分大小写，存储的是实际值
+```
+
+
+* 第一范式：数据库表的每一列都是不可分割的原子数据项
+* 第二范式：要求实体的属性完全依赖于主关键字
+* 第三范式：任何非主属性不依赖于其它非主属性
+
+
+

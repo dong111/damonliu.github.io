@@ -157,7 +157,7 @@ mysql> show global status like 'Key_read%';
 
 一共有50000个索引读取请求，有5个请求在内存中没有找到直接从硬盘读取索引，计算索引未命中缓存的概率：
 key\_cache\_miss\_rate ＝ Key\_reads / Key\_read\_requests * 100%
-比如上面的数据，key\_cache\_miss\_rate为0。01%，10000个索引读取请求才有一个直接读硬盘，已经很BT了，key\_cache\_miss\_rate在0.1%以下都很好（每1000个请求有一个直接读硬盘），如果key\_cache\_miss\_rate在0.01%以下的话，key\_buffer\_size分配的过多，可以适当减少。
+比如上面的数据，key\_cache\_miss\_rate为0.01%，10000个索引读取请求才有一个直接读硬盘，已经很BT了，key\_cache\_miss\_rate在0.1%以下都很好（每1000个请求有一个直接读硬盘），如果key\_cache\_miss\_rate在0.01%以下的话，key\_buffer\_size分配的过多，可以适当减少。
 
 MySQL服务器还提供了Key\_blocks\_*参数：
 
