@@ -7,9 +7,9 @@ tags: [mysql]
 
 ##### 以下配置全部在MySQL5.5版本上进行
 ```mysql
-show variables                          // 查看配置的信息
-show global status                      // 查看当前字段的状态
-set max_connections = 300               // 修改配置信息
+show variables                          -- 查看配置的信息
+show global status                      -- 查看当前字段的状态
+set max_connections = 300               -- 修改配置信息
 ```
 
 ### 1 慢查询
@@ -17,10 +17,10 @@ set max_connections = 300               // 修改配置信息
 ##### 1.1 启用MySQL慢查询日志
 ```mysql
 [mysqld]
-slow_query_log = 1                                              // 1/ON 开启 0/OFF 关闭
-slow_query_log_file = /data/mysql/mysql-slow-queries。log        // 日志文件
-long_query_time = 5                                             // 查询时间超过多少秒
-log_queries_not_using_indexes                                   // 查询未使用索引 不是必须是未使用索引
+slow_query_log = 1                                              -- 1/ON 开启 0/OFF 关闭
+slow_query_log_file = /data/mysql/mysql-slow-queries。log       -- 日志文件
+long_query_time = 5                                             -- 查询时间超过多少秒
+log_queries_not_using_indexes                                   -- 查询未使用索引 不是必须是未使用索引
 ```
 
 ##### 1.2 查看慢查询配置
@@ -29,9 +29,9 @@ mysql> show variables like '%slow%';
 +---------------------------+--------------------------------------+
 | Variable_name             | Value                                |
 +---------------------------+--------------------------------------+
-| log_slow_admin_statements | OFF                                  |    // 主库状态
-| log_slow_slave_statements | OFF                                  |    // 从库状态
-| slow_launch_time          | 2                                    |    // 创建一个查询线程的花费时间秒
+| log_slow_admin_statements | OFF                                  |    -- 主库状态
+| log_slow_slave_statements | OFF                                  |    -- 从库状态
+| slow_launch_time          | 2                                    |    -- 创建一个查询线程的花费时间秒
 | slow_query_log            | ON                                   |    
 | slow_query_log_file       | /data/mysql/mysql-slow-queries。log   |
 +---------------------------+--------------------------------------+
@@ -40,8 +40,8 @@ mysql> show global status like '%slow%';
 +---------------------+--------+
 | Variable_name       | Value  |
 +---------------------+--------+
-| Slow_launch_threads | 13     |            // 超过slow_launch_time时间创建的线程数
-| Slow_queries        | 285697 |            // 慢查询数量
+| Slow_launch_threads | 13     |            -- 超过slow_launch_time时间创建的线程数
+| Slow_queries        | 285697 |            -- 慢查询数量
 +---------------------+--------+
 ```
 MySQL有自带的命令mysqldumpslow可进行查询慢查询日志。
@@ -138,7 +138,7 @@ mysql> show variables like 'key_buffer_size';
 +-----------------+---------+
 | Variable_name   | Value   |
 +-----------------+---------+
-| key_buffer_size | 8388608 |           // 索引的缓存大小 bytes
+| key_buffer_size | 8388608 |           -- 索引的缓存大小 bytes
 +-----------------+---------+
 ```
 
@@ -199,21 +199,21 @@ mysql> show variables like '%innodb_buffer%';
 +------------------------------+-----------+
 | Variable_name                | Value     |
 +------------------------------+-----------+
-| innodb_buffer_pool_instances | 1         |        // 子buffer pool数量，buffer pool至少为1G时才能生效
-| innodb_buffer_pool_size      | 134217728 |        // buffer pool大小 bytes
+| innodb_buffer_pool_instances | 1         |        -- 子buffer pool数量，buffer pool至少为1G时才能生效
+| innodb_buffer_pool_size      | 134217728 |        -- buffer pool大小 bytes
 +------------------------------+-----------+
 
 mysql> show global status like '%innodb_buffer_pool%';
 +---------------------------------------+-------------+
 | Variable_name                         | Value       |
 +---------------------------------------+-------------+
-| Innodb_buffer_pool_pages_data         | 7944        | // 当前buffer pool缓存的数据大小，包括脏数据
-| Innodb_buffer_pool_bytes_data         | 130154496   | // 当前buffer pool缓存的数据大小，包括脏数据 
-| Innodb_buffer_pool_pages_dirty        | 42          | // 缓存脏数据页数量
-| Innodb_buffer_pool_bytes_dirty        | 688128      | // 缓存的脏数据大小
-| Innodb_buffer_pool_pages_flushed      | 75134914    | // 刷新页请求数量
-| Innodb_buffer_pool_pages_free         | 0           | // 空闲页数量
-| Innodb_buffer_pool_pages_total        | 8191        | // 缓存池总页数
+| Innodb_buffer_pool_pages_data         | 7944        | -- 当前buffer pool缓存的数据大小，包括脏数据
+| Innodb_buffer_pool_bytes_data         | 130154496   | -- 当前buffer pool缓存的数据大小，包括脏数据 
+| Innodb_buffer_pool_pages_dirty        | 42          | -- 缓存脏数据页数量
+| Innodb_buffer_pool_bytes_dirty        | 688128      | -- 缓存的脏数据大小
+| Innodb_buffer_pool_pages_flushed      | 75134914    | -- 刷新页请求数量
+| Innodb_buffer_pool_pages_free         | 0           | -- 空闲页数量
+| Innodb_buffer_pool_pages_total        | 8191        | -- 缓存池总页数
 | Innodb_buffer_pool_read_ahead_rnd     | 0           |
 | Innodb_buffer_pool_read_ahead         | 95192790    |
 | Innodb_buffer_pool_read_ahead_evicted | 11789798    |
@@ -256,8 +256,8 @@ mysql> show global status like 'open%tables%';
 +---------------+-------+
 | Variable_name | Value |
 +---------------+-------+
-| Open_tables   | 512   |       // 打开表的数量
-| Opened_tables | 14545 |       // 表示打开过的表数量
+| Open_tables   | 512   |       -- 打开表的数量
+| Opened_tables | 14545 |       -- 表示打开过的表数量
 +---------------+-------+
 ```
 如果Opened\_tables数量过大，说明配置中table\_open\_cache值可能太小，我们查询一下服务器table_cache值：
@@ -317,14 +317,14 @@ mysql> show global status like 'open_files';
 +---------------+-------+
 | Variable_name | Value |
 +---------------+-------+
-| Open_files    | 9     |       // 打开文件数
+| Open_files    | 9     |       -- 打开文件数
 +---------------+-------+
 
 mysql> show variables like 'open_files_limit';
 +------------------+--------+
 | Variable_name    | Value  |
 +------------------+--------+
-| open_files_limit | 306154 |   // 比较合适的设置：Open_files / open_files_limit * 100% <= 75％
+| open_files_limit | 306154 |   -- 比较合适的设置：Open_files / open_files_limit * 100% <= 75％
 +------------------+--------+
 ```
 
@@ -335,8 +335,8 @@ mysql> show global status like 'table_locks%';
 +-----------------------+-----------+
 | Variable_name         | Value     |
 +-----------------------+-----------+
-| Table_locks_immediate | 176460059 |           // 即释放表锁数
-| Table_locks_waited    | 59650     |           // 需要等待的表锁数
+| Table_locks_immediate | 176460059 |           -- 即释放表锁数
+| Table_locks_waited    | 59650     |           -- 需要等待的表锁数
 +-----------------------+-----------+
 ```
 比较合适的值为：Table\_locks\_immediate / Table\_locks\_waited > 5000。

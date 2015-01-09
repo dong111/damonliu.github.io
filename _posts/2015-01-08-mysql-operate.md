@@ -48,19 +48,20 @@ collation-server=utf8_general_ci
 init-connect='SET NAMES utf8'
 character-set-server=utf8
 
-mysql> ALTER DATABASE `mysql` DEFAULT CHARACTER SET = UTF8;        // 修改一个数据库的编码
+mysql> alter database `mysql` default character set = UTF8;        -- 修改一个数据库的编码
 ```
 
 ### 1.3 授权
 ```mysql
-mysql> GRANT ALL ON *.* TO root@'%' IDENTIFIED BY 'root' WITH GRANT OPTION; // 可以在所有的IP地址访问
-mysql> GRANT SELECT ON `damon`.`user` TO damon@localhost IDENTIFIED BY 'damon'; 
-// damon用户只有在本机登录查询damon用户user表的权限
+mysql> grant all on *.* to root@'%' identified by 'root' with grant option; -- 可以在所有的IP地址访问
+mysql> grant select on `damon`.`user` TO damon@localhost identified by 'damon'; 
+-- damon用户只有在本机登录查询damon数据库user表的权限
 ```
 
 ### 1.4 查看权限
 ```mysql
-mysql> SELECT DISTINCT CONCAT('User: ''',user,'''@''',host,''';') AS `grant` FROM `mysql`.`user`; // 查看所有用户访问权限
+mysql> select distinct concat('User: ''',user,'''@''',host,''';') as `grant` from `mysql`.`user`;
+ -- 查看所有用户访问权限
 +---------------------------+
 | grant                     |
 +---------------------------+
@@ -68,7 +69,7 @@ mysql> SELECT DISTINCT CONCAT('User: ''',user,'''@''',host,''';') AS `grant` FRO
 | User: 'root'@'localhost'; |
 +---------------------------+
 
-mysql> SHOW GRANTS FOR 'root'@'%';   // 查看具体的权限
+mysql> show grants for 'root'@'%';   -- 查看具体的权限
 +------------------------------------------------------------------＋
 | GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY PASSWORD  
      '*81F5E21E35407D884A6CD4A731AEBFB6AF209E1B' WITH GRANT OPTION |
@@ -77,19 +78,33 @@ mysql> SHOW GRANTS FOR 'root'@'%';   // 查看具体的权限
 
 ### 1.5 修改数据密码
 ```mysql
-mysql> UPDATE `mysql`.`user` SET `password` = PASSWORD('root') WHERE `user` = 'root';
-mysql> FLUSH PRIVILEGES;
+mysql> update `mysql`.`user` set `password` = PASSWORD('root') where `user` = 'root';
+mysql> flush privileges;
 
-mysql> mysqladmin -u `root` -p `root` PASSWORD;
+mysql> mysqladmin -uroot -p 'root' PASSWORD;
 
-mysql> SET PASSWORD FOR root = PASSWORD('root');
+mysql> set password for root = PASSWORD('root');
 ```
+
+### 1.6 导入导出
+```mysql
+shell> mysqldump -uroot -proot `mysql` > /data/mysql.sql              -- 导出mysql整个数据库
+shell> mysqldump -uroot -proot `mysql` `user` > /data/mysql_user.sql  -- 导出mysql数据库的user表
+-- 常用参数 -d 删除数据，只导出结构 -t 只导出数据 --add-drop-table 添加删除表的语句
+
+mysql> select * into outfile '/data/1.txt' from `user` where `name` = 'root'; -- 导出到文件
+
+mysql> source mysql.sql                                               -- 导入数据
+mysql> load data local infile '/data/1.txt' into table `user` fields terminated by '\t';
+-- 导入文件数据 字段的分隔符为 '\t' 一个制表符  注意文件里面的分割也要是制表符
+```
+
 
 # 2 表有关
 
 ### 2.1 查看表状态
 ```mysql
-mysql> SHOW TABLE STATUS LIKE 'user' \G
+mysql> show table status like 'user' \G
            Name: user
          Engine: MyISAM
         Version: 10
@@ -108,9 +123,30 @@ Max_data_length: 281474976710655
        Checksum: NULL
  Create_options: 
         Comment: Users and global privileges
-
-mysql> ALTER TABLE `user` engine = InnoDB;                      // 修改表的存储引擎
 ```
 
+
+### 2.2 表复制
+```mysql
+mysql> create table `user3` select * from `user`;       -- 复制表结构和数据，但是没有复制 primary key 等
+
+mysql> create table `user1` like `user`;
+mysql> create table `user2` select * from `user` where 1 = 2
+-- 这两个都是复制旧表的结构，不添加数据，会把主键设置也拷贝过来
+
+mysql> insert into `user1` select * from `user`;        -- 拷贝数据，表结构要一样
+mysql> insert into user1(`name`, `password`) select `name`, `password` from user; -- 表结构不一样
+
+mysql> show create table `user` \G;                     -- 可以查看见表语句，拷贝出来创建新表
+```
+
+### 2.3 表修改
+```mysql
+mysql> alter table `user` engine = InnoDB;                      -- 修改表的存储引擎
+mysql> alter table `user` change clomun `id` `user_id` int(11) not null auto_increment,drop primary key,add primary key using btree(`user_id`);                                     -- 修改列名称，主键的话删除索引重新建立
+mysql> alter table `user` modify column `id` int(11) not null auto_increment; -- 修改列属性
+mysql> alter table `user` drop column `password`;               -- 删除列
+mysql> alter table `users` add column `password` varchar(65) not null after `name`;        -- 添加新列
+```
 
 ### TODO
