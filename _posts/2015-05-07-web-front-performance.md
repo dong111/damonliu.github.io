@@ -32,18 +32,18 @@ DNS查询也消耗响应时间，如果我们的网页内容来自各个不同�
 - 基本方法
 
 ```javascript
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
-    <script>
-        if (typeof jQuery == 'undefined') {
-            document.write(unescape("%3Cscript src='js/jquery-2.0.0.min.js'%3E%3C/script%3E"));
-        }
-    </script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+<script>
+    if (typeof jQuery == 'undefined') {
+        document.write(unescape("%3Cscript src='js/jquery-2.0.0.min.js'%3E%3C/script%3E"));
+    }
+</script>
 ```
 
 - 协议省略
 
 ```javascript
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
 ```
 上面的代码看起来奇怪，但“协议省略”的网址是引用第三方内容的最好的方式，它可以通过Http或Https引用。当页面加载时，
 对于非加密请求脚本会通过Http方式引用并且缓存起来，以此同时对于加密请求脚本会根据“协议省略”方式使用Https引用内容，
@@ -54,10 +54,13 @@ DNS查询也消耗响应时间，如果我们的网页内容来自各个不同�
 
 网页中元素过多对网页的加载和脚本的执行都是沉重的负担，500个元素和5000个元素在加载速度上会有很大差别。
 想知道你的网页中有多少元素，通过在浏览器中的一条简单命令就可以算出
+
 ```javascript
 document.getElementsByTagName('*').length
 ```
+
 比如google的html coding style就规定省略不必要的标签
+
 ```html
 <ul>
     <li>1
@@ -76,9 +79,11 @@ document.getElementsByTagName('*').length
 
 CSS表达式可以动态的设置CSS属性，在IE5-IE8中支持，其他浏览器中表达式会被忽略。例如下面表达式在不同时间设置不同的
 背景颜色。
+
 ```css
     background-color: expression( (new Date()).getHours()%2 ? "#B8D4FF" : "#F08A00" );
 ```
+
 CSS表达式的问题在于它被重新计算的次数远比我们想象的要多，不仅在网页绘制或大小改变时计算，即使我们滚动屏幕或者移动
 鼠标的时候也在计算，因此我们还是尽量避免使用它来防止使用不当而造成的性能损耗。如果想达到这样的效果可使用javascript
 
@@ -106,13 +111,17 @@ CSS表达式的问题在于它被重新计算的次数远比我们想象的要�
 
 比如一般我们用的第三方js和css文件都会有一个product版本，去掉了里面不必要的空格，减少了
 文件的大小。统计表明精简后的文件大小平均减少了21%。
-用来帮助我们做精简的工具很多，主要可以参考如下，
+用来帮助我们做精简的工具很多，主要可以参考如下:
+
 - JS compressors
+
 > * [Packer](http://dean.edwards.name/packer/) 
 > * [JSMin](http://crockford.com/javascript/jsmin)
 > * [Closure compiler](http://code.google.com/intl/pl/closure/compiler/)
 > * [YUICompressor](http://developer.yahoo.com/yui/compressor/)
+
 - CSS compressors
+
 > * [CSSTidy](http://csstidy.sourceforge.net/)
 > * [Minify](http://code.google.com/p/minify/)
 > * [CSSCompressor](http://www.csscompressor.com/)
