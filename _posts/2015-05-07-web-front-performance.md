@@ -40,6 +40,13 @@ DNS查询也消耗响应时间，如果我们的网页内容来自各个不同�
 </script>
 ```
 
+```html
+<!DOCTYPE html>
+<html lang="zh-CN">
+  ...
+</html>
+```
+
 - 协议省略
 
 ```javascript

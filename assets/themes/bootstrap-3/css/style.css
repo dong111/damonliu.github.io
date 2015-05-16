@@ -188,7 +188,7 @@ h1, h2, h3, h4, h5, h6 {
     text-align: center;
 }
 
-.highlight {
+/*.highlight {
     margin: 1em 0;
     padding: 10px 0;
     width: 100%;
@@ -206,7 +206,7 @@ h1, h2, h3, h4, h5, h6 {
     border: none;
     padding: 0;
     padding-left: 2em;
-}
+}*/
 
 .footer {
     background-color: #222;
