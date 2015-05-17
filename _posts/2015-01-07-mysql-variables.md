@@ -18,7 +18,7 @@ set max_connections = 300               -- 修改配置信息
 ```mysql
 [mysqld]
 slow_query_log = 1                                              -- 1/ON 开启 0/OFF 关闭
-slow_query_log_file = /data/mysql/mysql-slow-queries。log       -- 日志文件
+slow_query_log_file = /data/mysql/mysql-slow-queries.log        -- 日志文件
 long_query_time = 5                                             -- 查询时间超过多少秒
 log_queries_not_using_indexes                                   -- 查询未使用索引 不是必须是未使用索引
 ```
@@ -33,7 +33,7 @@ mysql> show variables like '%slow%';
 | log_slow_slave_statements | OFF                                  |    -- 从库状态
 | slow_launch_time          | 2                                    |    -- 创建一个查询线程的花费时间秒
 | slow_query_log            | ON                                   |    
-| slow_query_log_file       | /data/mysql/mysql-slow-queries。log   |
+| slow_query_log_file       | /data/mysql/mysql-slow-queries.log   |
 +---------------------------+--------------------------------------+
 
 mysql> show global status like '%slow%';
@@ -152,7 +152,7 @@ mysql> show global status like 'Key_read%';
 | Key_read_requests | 50000    |
 | Key_reads         | 5        |
 +-------------------+----------+
-2 rows in set (0。09 sec)
+2 rows in set (0.09 sec)
 ```
 
 一共有50000个索引读取请求，有5个请求在内存中没有找到直接从硬盘读取索引，计算索引未命中缓存的概率：

@@ -1,11 +1,8 @@
 h1, h2, h3, h4, h5, h6 {
-    color: #4183C4;
+    color: #18BC9C;
     font-weight: bold;
 }
 
-.navbar .container {
-    margin: 0 auto;
-}
 
 .body {
     padding-top: 100px;
@@ -14,23 +11,6 @@ h1, h2, h3, h4, h5, h6 {
     font-family:  Arial, Helvetica, sans-serif;
 }
 
-.body p {
-    font-size: 14px;
-    line-height: 24px;
-}
-
-.body .container {
-    width: 1000px;
-    padding: 0;
-}
-
-.body .entry {
-    color: #91A7BA;
-    text-shadow: 5px 5px 5px #9E9E9E;
-    margin-top: 0;
-    margin-bottom: 50px;
-    text-align: center;
-}
 
 .body .post, .body .post-collate {
     background-color: #FFF;
@@ -131,23 +111,23 @@ h1, h2, h3, h4, h5, h6 {
     height: 50px;
     color: #fff;
     text-align: center;
-    background: #222;
+    background: #18BC9C;
     margin-left: -56px;
     margin-top: -10px;
 }
 
 .post .post-date {
     width: 150px;
-    height: 48px;
+    height: 50px;
     text-align: left;
-    background-color: #222;
+    background-color: #18BC9C;
     margin-right: 150px;
 }
 
 .post .post-date::before {
     position: absolute;
     content: "";
-    border: 1.73em solid #222;
+    border: 1.73em solid #18BC9C;
     border-right-color: transparent;
     top: 0;
     left: 100%;
@@ -158,7 +138,7 @@ h1, h2, h3, h4, h5, h6 {
     content: "";
     top: 100%;
     left: 0;
-    border-right: 1.2em solid #222;
+    border-right: 1.2em solid #18BC9C;
     border-bottom: 0.5em solid transparent;
 }
 
@@ -188,28 +168,8 @@ h1, h2, h3, h4, h5, h6 {
     text-align: center;
 }
 
-/*.highlight {
-    margin: 1em 0;
-    padding: 10px 0;
-    width: 100%;
-    overflow: auto;
-    background-color: #111;
-    border-radius: 5px;
-    box-shadow: inset 0 1px 10px rgba(0,0,0,0.3),0 1px 0 rgba(255,255,255,0.1),0 -1px 0 rgba(0,0,0,0.5);
-}
-
-.highlight pre {
-    white-space: pre;
-    margin: 0;
-    font: 14px/1.8em Arial, Helvetica, sans-serif;
-    background-color: #111;
-    border: none;
-    padding: 0;
-    padding-left: 2em;
-}*/
-
 .footer {
-    background-color: #222;
+    background-color: #374D64;
     height: 45px;
     line-height: 45px;
 }
