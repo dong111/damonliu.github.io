@@ -61,6 +61,6 @@ timestamp 和 datetime 的区别：timestamp只使用了datetime一般的存储�
     
 #### 1. 索引的类型
 
-
+- BTree 索引
         
         
