@@ -162,7 +162,7 @@ mysql> show create table `user` \G;                     -- 可以查看见表语
 ### 2.3 表修改
 ```mysql
 mysql> alter table `user` engine = InnoDB;                                              -- 修改表的存储引擎
-mysql> alter table `user` change clomun `id` `user_id` int(11) not null auto_increment, drop primary key,
+mysql> alter table `user` change column `id` `user_id` int(11) not null auto_increment, drop primary key,
     -> add primary key using btree(`user_id`);                     -- 修改列名称，主键的话删除索引重新建立
 mysql> alter table `user` modify column `id` int(11) not null auto_increment;           -- 修改列属性
 mysql> alter table `user` drop column `password`;                                       -- 删除列
